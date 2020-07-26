@@ -1,0 +1,28 @@
+﻿<Window x:Class="ATBM.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ATBM"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" Height="25" Margin="0,47,0,0" Text="PHÂN HỆ 1" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" TextAlignment="Center"/>
+        <Grid>
+
+            <Grid HorizontalAlignment="Left" Width="800">
+                <Grid HorizontalAlignment="Left" Height="291" Margin="45,112,0,0" VerticalAlignment="Top" Width="297" Background="#FF96D0EC">
+                    <TextBlock HorizontalAlignment="Left" Height="26" Margin="112,10,0,0" Text="USER" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="24,36,0,0" Text="Name" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="189,36,0,0" Text="Role" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                </Grid>
+                <Button Content="Chi tiết" Margin="276,408,476,3" RenderTransformOrigin="0.333,0.957"/>
+            </Grid>
+            <Grid>
+                <Button Content="Phân Quyền" HorizontalAlignment="Left" Margin="515,168,0,0" VerticalAlignment="Top"/>
+                <Button Content="Người dùng" HorizontalAlignment="Left" Margin="515,230,0,0" VerticalAlignment="Top"/>
+                <Button Content="Vai trò" HorizontalAlignment="Left" Margin="522,283,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
