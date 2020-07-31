@@ -1,0 +1,42 @@
+﻿<Window x:Class="ATBM.Role"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ATBM"
+        mc:Ignorable="d"
+        Title="Role" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Xem role">
+                <Grid>
+                    <ComboBox HorizontalAlignment="Left" 
+                             Margin="52,38,0,0" Name="SelectedRole" SelectionChanged="ChangeRoleSelected" VerticalAlignment="Top" Width="120">
+                    </ComboBox>
+                    <Button Content="Xóa role" HorizontalAlignment="Left" Margin="224,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.53,0.505" Height="22" Click="createRole" />
+                    <DataGrid Name="AllRoleList" Margin="52,81,450,105"
+UseLayoutRounding="False"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Tạo role">
+                <Grid>
+                    <Label Content="Tên role" HorizontalAlignment="Left" Margin="2,26,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <TextBox HorizontalAlignment="Left" Margin="94,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="RoleName"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="94,68,0,0" VerticalAlignment="Top" Width="120">
+                        <ComboBoxItem Content="Bảng 1" IsSelected="True"/>
+                    </ComboBox>
+                    <Label Content="Chọn bảng" HorizontalAlignment="Left" Margin="2,64,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <CheckBox Content="Select" HorizontalAlignment="Left" Margin="94,110,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Update" HorizontalAlignment="Left" Margin="94,130,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Insert" HorizontalAlignment="Left" Margin="94,150,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Delete" HorizontalAlignment="Left" Margin="94,170,0,0" VerticalAlignment="Top"/>
+                    <Button Content="Tạo" HorizontalAlignment="Left" Margin="94,203,0,0" VerticalAlignment="Top" Width="50" Click="createRole"/>
+                    <TextBox HorizontalAlignment="Left" Margin="331,34,0,0" Name="RolePass" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Mật Khẩu" HorizontalAlignment="Left" Margin="240,30,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

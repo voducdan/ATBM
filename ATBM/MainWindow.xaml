@@ -18,10 +18,10 @@
                 </Grid>
                 <Button Content="Chi tiết" Margin="276,408,476,3" RenderTransformOrigin="0.333,0.957"/>
             </Grid>
-            <Grid>
+            <Grid Height="434.04">
                 <Button Content="Phân Quyền" HorizontalAlignment="Left" Margin="515,168,0,0" VerticalAlignment="Top"/>
                 <Button Content="Người dùng" HorizontalAlignment="Left" Margin="515,230,0,0" VerticalAlignment="Top"/>
-                <Button Content="Vai trò" HorizontalAlignment="Left" Margin="522,283,0,0" VerticalAlignment="Top"/>
+                <Button Content="Vai trò" Click="RoleBtn_Click" HorizontalAlignment="Left" Margin="522,283,0,0" VerticalAlignment="Top"/>
             </Grid>
         </Grid>
     </Grid>

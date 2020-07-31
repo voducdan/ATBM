@@ -24,5 +24,11 @@ namespace ATBM
         {
             InitializeComponent();
         }
+
+        private void RoleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Role role = new Role();
+            role.Show();
+        }
     }
 }
