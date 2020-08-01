@@ -13,9 +13,10 @@
                     <ComboBox HorizontalAlignment="Left" 
                              Margin="52,38,0,0" Name="SelectedRole" SelectionChanged="ChangeRoleSelected" VerticalAlignment="Top" Width="120">
                     </ComboBox>
-                    <Button Content="Xóa role" HorizontalAlignment="Left" Margin="224,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.53,0.505" Height="22" Click="createRole" />
+                    <Button Content="Xóa role"  Name="delRoleBtn" Visibility="Hidden" HorizontalAlignment="Left" Margin="224,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.53,0.505" Height="22"  Click="delRole"  />
                     <DataGrid Name="AllRoleList" Margin="52,81,450,105"
 UseLayoutRounding="False"/>
+                    <Button Content="Sửa role" HorizontalAlignment="Left" Name="editRoleBtn" Visibility="Hidden" Margin="289,40,0,0" VerticalAlignment="Top" Height="21" Width="55"/>
 
                 </Grid>
             </TabItem>
@@ -23,17 +24,20 @@ UseLayoutRounding="False"/>
                 <Grid>
                     <Label Content="Tên role" HorizontalAlignment="Left" Margin="2,26,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2"/>
                     <TextBox HorizontalAlignment="Left" Margin="94,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="RoleName"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="94,68,0,0" VerticalAlignment="Top" Width="120">
-                        <ComboBoxItem Content="Bảng 1" IsSelected="True"/>
+                    <ComboBox HorizontalAlignment="Left" Visibility="Hidden" Margin="94,68,0,0" VerticalAlignment="Top" Name="userTablesList" Width="120">
                     </ComboBox>
-                    <Label Content="Chọn bảng" HorizontalAlignment="Left" Margin="2,64,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2"/>
-                    <CheckBox Content="Select" HorizontalAlignment="Left" Margin="94,110,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Content="Update" HorizontalAlignment="Left" Margin="94,130,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Content="Insert" HorizontalAlignment="Left" Margin="94,150,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Content="Delete" HorizontalAlignment="Left" Margin="94,170,0,0" VerticalAlignment="Top"/>
-                    <Button Content="Tạo" HorizontalAlignment="Left" Margin="94,203,0,0" VerticalAlignment="Top" Width="50" Click="createRole"/>
+                    <Label Content="Chọn bảng" Visibility="Hidden" Name="SelectTableLable" HorizontalAlignment="Left" Margin="2,64,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <Button Visibility="Hidden" 
+                            Name="GrantRoleBtn" HorizontalAlignment="Left" Margin="94,230,0,0" VerticalAlignment="Top" Width="120" Click="GrantRole"/>
                     <TextBox HorizontalAlignment="Left" Margin="331,34,0,0" Name="RolePass" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                     <Label Content="Mật Khẩu" HorizontalAlignment="Left" Margin="240,30,0,0" VerticalAlignment="Top"/>
+                    <ListBox Margin="94,107,580,181" Visibility="Hidden" Name="ListGrant" >
+                        <CheckBox Name="GrantSelect" Content="Select" />
+                        <CheckBox Name="GrantInsert"  Content="Insert" />
+                        <CheckBox Name="GrantUpdate"  Content="Update" />
+                        <CheckBox Name="GrantDelete"  Content="Delete"/>
+                    </ListBox>
+                    <Button Content="Tạo role" HorizontalAlignment="Left" Height="18" Margin="496,34,0,0" VerticalAlignment="Top" Width="49" Name="CreateRoleBtn" Click="createRole"/>
                 </Grid>
             </TabItem>
         </TabControl>
