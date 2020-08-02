@@ -48,16 +48,19 @@ namespace ATBM
                 string selectRoles;
                 if (roleName.Equals("All"))
                 {
-                    selectRoles = @"SELECT r.GRANTEE, r.TABLE_NAME, r.PRIVILEGE 
-                                    FROM ALL_TAB_PRIVS r 
-                                    WHERE r.GRANTEE <> 'PUBLIC' AND r.GRANTEE <> 'SYS'
-                                    ORDER BY r.GRANTEE";
+                    selectRoles = @"SELECT dr.GRANTED_ROLE , atp.TABLE_NAME, atp.PRIVILEGE FROM USER_ROLE_PRIVS dr 
+                                    LEFT JOIN ALL_TAB_PRIVS atp 
+                                    ON atp.GRANTEE = dr.GRANTED_ROLE 
+                                    WHERE UPPER(dr.GRANTED_ROLE ) != UPPER('connect')
+                                    ORDER BY dr.granted_role";
                 }
                 else
                 {
-                    selectRoles = @"SELECT r.GRANTEE, r.TABLE_NAME, r.PRIVILEGE 
-                                    FROM ALL_TAB_PRIVS r 
-                                    WHERE r.GRANTEE <> 'PUBLIC' AND r.GRANTEE <> 'SYS' AND r.GRANTEE = " + "'" + roleName + "'" + " ORDER BY r.GRANTEE";
+                    selectRoles = @"SELECT dr.GRANTED_ROLE , atp.TABLE_NAME, atp.PRIVILEGE FROM USER_ROLE_PRIVS dr 
+                                    LEFT JOIN ALL_TAB_PRIVS atp 
+                                    ON atp.GRANTEE = dr.GRANTED_ROLE 
+                                    WHERE UPPER(dr.GRANTED_ROLE ) != UPPER('connect') AND dr.GRANTED_ROLE =
+                                    " + "'" + roleName + "'" + "ORDER BY dr.granted_role";
                 }
                 OracleCommand occmd = new OracleCommand(selectRoles, con);
                 con.Open();
@@ -74,10 +77,9 @@ namespace ATBM
                 Console.WriteLine(e.ToString());
             }
         }
-
         private void ChangeRoleSelected(object sender, RoutedEventArgs e)
         {
-            if(SelectedRole.SelectedIndex == -1)
+            if (SelectedRole.SelectedIndex == -1)
             {
                 getRolePrivilege("All");
             }
@@ -89,23 +91,23 @@ namespace ATBM
             delRoleBtn.Visibility = Visibility;
             editRoleBtn.Visibility = Visibility;
         }
-
         private void getComboboxItems(ComboBox cob)
         {
             try
             {
                 OracleConnection con = ConnectOracle();
-                string query = @"SELECT DISTINCT(r.GRANTEE)
-                                FROM ALL_TAB_PRIVS r 
-                                WHERE r.GRANTEE <> 'PUBLIC' AND r.GRANTEE <> 'SYS'";
+                string query = @"SELECT DISTINCT(dr.GRANTED_ROLE) FROM USER_ROLE_PRIVS dr 
+                                LEFT JOIN ALL_TAB_PRIVS atp 
+                                ON atp.GRANTEE = dr.GRANTED_ROLE 
+                                WHERE UPPER(dr.GRANTED_ROLE ) != UPPER('connect')";
                 OracleCommand occmd = new OracleCommand(query, con);
                 con.Open();
                 OracleDataReader ocr = occmd.ExecuteReader();
                 DataTable ds = new DataTable();
                 ds.Load(ocr);
                 cob.ItemsSource = ds.DefaultView;
-                cob.DisplayMemberPath = "GRANTEE";
-                cob.SelectedValuePath = "GRANTEE";
+                cob.DisplayMemberPath = "GRANTED_ROLE";
+                cob.SelectedValuePath = "GRANTED_ROLE";
                 con.Close();
             }
             catch (Exception err)
@@ -113,7 +115,6 @@ namespace ATBM
                 Console.WriteLine(err.ToString());
             }
         }
-
         private void getUserTableList(ComboBox cob)
         {
             try
@@ -128,7 +129,6 @@ namespace ATBM
                 cob.ItemsSource = ds.DefaultView;
                 cob.DisplayMemberPath = "TABLE_NAME";
                 cob.SelectedValuePath = "TABLE_NAME";
-                cob.SelectedIndex = 0;
                 con.Close();
             }
             catch (Exception err)
@@ -136,7 +136,6 @@ namespace ATBM
                 Console.WriteLine(err.ToString());
             }
         }
-
         private void createRole(object sender, RoutedEventArgs e)
         {
             OracleConnection con = ConnectOracle();
@@ -145,16 +144,16 @@ namespace ATBM
             con.Open();
             new OracleCommand("ALTER SESSION SET \"_ORACLE_SCRIPT\"=true", con).ExecuteNonQuery();
             int create = createCmd.ExecuteNonQuery();
-           
+
             if (create != 0)
             {
                 MessageBox.Show("Create role" + RoleName.Text);
+                getUserTableList(userTablesList);
                 SelectTableLable.Visibility = Visibility;
                 ListGrant.Visibility = Visibility;
                 GrantRoleBtn.Visibility = Visibility;
                 userTablesList.Visibility = Visibility;
-                GrantRoleBtn.Content = "Grant on " + userTablesList.SelectedValue.ToString();
-                getComboboxItems(userTablesList);
+                GrantRoleBtn.Content = "Grant";
             }
             else
             {
@@ -203,7 +202,7 @@ namespace ATBM
                 }
 
             }
-            if(flag == 0)
+            if (flag == 0)
             {
                 MessageBox.Show("Phân quyền thành công");
                 getRolePrivilege("All");
@@ -286,12 +285,12 @@ namespace ATBM
             try
             {
                 OracleConnection con = ConnectOracle();
-                string query = "DROP ROLE " + SelectedRole.SelectedValue.ToString() ;
+                string query = "DROP ROLE " + SelectedRole.SelectedValue.ToString();
                 OracleCommand occmd = new OracleCommand(query, con);
                 con.Open();
                 new OracleCommand("ALTER SESSION SET \"_ORACLE_SCRIPT\"=true", con).ExecuteNonQuery();
                 int drop = occmd.ExecuteNonQuery();
-                if(drop != -1)
+                if (drop != -1)
                 {
                     MessageBox.Show("Xóa role không thành công");
                 }
@@ -299,7 +298,7 @@ namespace ATBM
                 {
                     MessageBox.Show("Xóa role thành công");
                 }
-                UpdateRoleBtn.Visibility = Visibility.Hidden;
+                editRoleBtn.Visibility = Visibility.Hidden;
                 getRolePrivilege("All");
                 getComboboxItems(SelectedRole);
                 con.Close();
@@ -309,17 +308,63 @@ namespace ATBM
                 Console.WriteLine(err.ToString());
             }
         }
-        private void UpdateRole(object sender, RoutedEventArgs e) { }
         private void updateRole(object sender, RoutedEventArgs e)
         {
-            getUserTableList(tableUpdateList);
-            UpdateRoleLable.Visibility = Visibility;
-            UpdateRoleBtn.Visibility = Visibility;
-            tableUpdateList.Visibility = Visibility;
-            ListGrantUpdate.Visibility = Visibility;
-            UpdateRoleBtn.Content = "Update on "+ userTablesList.SelectedValue.ToString();
+            try
+            {
+                getUserTableList(tableUpdateList);
+
+                UpdateRoleLable.Visibility = Visibility;
+                tableUpdateList.Visibility = Visibility;
+
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err);
+            }
         }
-        private void activeUpdate(object sender, RoutedEventArgs e) { }
+        private void activeUpdate(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void changeTableUpdate(object sender, SelectionChangedEventArgs e)
+        {
+            if (tableUpdateList.SelectedIndex > -1)
+            {
+                OracleConnection con = ConnectOracle();
+                string query = @"SELECT atp.PRIVILEGE FROM USER_ROLE_PRIVS dr LEFT JOIN ALL_TAB_PRIVS atp  ON atp.GRANTEE = dr.GRANTED_ROLE WHERE dr.granted_role = " + "'" +  SelectedRole.SelectedValue.ToString() +  "'" + " ORDER BY dr.granted_role";
+                DataTable dt = new DataTable();
+                OracleCommand oCmd = new OracleCommand(query, con);
+                con.Open();
+                OracleDataReader reader = oCmd.ExecuteReader();
+                dt.Load(reader);
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["PRIVILEGE"].ToString() == "SELECT")
+                    {
+                        UpdateSelect.IsChecked = true;
+                    }
+                    if (row["PRIVILEGE"].ToString() == "INSERT")
+                    {
+                        UpdateInsert.IsChecked = true;
+                    }
+                    if (row["PRIVILEGE"].ToString() == "DELETE")
+                    {
+                        UpdateDelete.IsChecked = true;
+                    }
+                    if (row["PRIVILEGE"].ToString() == "UPDATE")
+                    {
+                        UpdateUpdate.IsChecked = true;
+                    }
+                }
+                ListGrant.Visibility = Visibility;
+                ListGrantUpdate.Visibility = Visibility;
+                UpdateRoleBtn.Visibility = Visibility;
+                UpdateRoleBtn.Content = "Update on " + tableUpdateList.SelectedValue.ToString();
+            }
+
+        }
     }
 
 }
