@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ATBM
+namespace ATBM_PH2
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -5,35 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATBM"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
         
-         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-     TextElement.FontWeight="Regular"
-     TextElement.FontSize="13"
-     TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        DataContext="{StaticResource MainWD}"
+        ResizeMode="NoResize"
+        Height="480" Width="670"
         
-        >
+        Title="Trang chủ">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Height="25" Margin="0,47,0,0" Text="PHÂN HỆ 1" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" TextAlignment="Center"/>
-        <Grid>
-
-            <Grid HorizontalAlignment="Left" Width="800">
-                <Grid HorizontalAlignment="Left" Height="291" Margin="45,112,0,0" VerticalAlignment="Top" Width="297" Background="#FF96D0EC">
-                    <TextBlock HorizontalAlignment="Left" Height="26" Margin="112,10,0,0" Text="USER" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="24,36,0,0" Text="Name" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="189,36,0,0" Text="Role" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Text="Phân hệ 1"
+                   FontSize="50" 
+                   HorizontalAlignment="Center"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"
+                  Margin="25,0,0,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Text="User"
+                           FontSize="25" 
+                           HorizontalAlignment="Center" 
+                           FontWeight="Bold"/>
+                <Grid Grid.Row="1"
+                      Height="270" Width="310">
+                    <ListView HorizontalAlignment="Center" 
+                              Width="300" Grid.ColumnSpan="3"
+                              ItemsSource="{Binding ListUserRole}"
+                             SelectedItem="{Binding SelectedItemUser_Role}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Người dùng"
+                                                Width="120" 
+                                                DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Vai trò"
+                                                Width="120"
+                                                DisplayMemberBinding="{Binding Role}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
-                <Button Content="Chi tiết" Margin="276,408,476,3" RenderTransformOrigin="0.333,0.957"/>
+                <Button   x:Name="btnDetail"
+                          Grid.Row="2"
+                          Content="Chi tiết"
+                          Margin="162,14,4,0" Height="Auto" 
+                          Command="{Binding DetailWindowCommand}" ></Button>
             </Grid>
-            <Grid Height="434.04">
-                <Button Content="Phân Quyền" HorizontalAlignment="Left" Margin="515,168,0,0" VerticalAlignment="Top"/>
-                <Button Content="Người dùng" HorizontalAlignment="Left" Margin="515,230,0,0" VerticalAlignment="Top"/>
-                <Button Content="Vai trò" Click="RoleBtn_Click" HorizontalAlignment="Left" Margin="522,283,0,0" VerticalAlignment="Top"/>
-            </Grid>
+            <StackPanel Grid.Column="1" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="Người dùng" Height="100"  Margin="10"/>
+                <Button Content="Vai trò"
+                        Command="{Binding RoleWindowCommand}"
+                        Height="100"  Margin="10"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

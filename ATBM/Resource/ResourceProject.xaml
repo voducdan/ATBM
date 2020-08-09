@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:View="clr-namespace:ATBM.View"
+                    xmlns:local="clr-namespace:ATBM.Resource">
+    <View:MainWindow x:Key="MainWD"></View:MainWindow>
+    <View:DetailWindow x:Key="DetailWD"></View:DetailWindow>
+    <View:RoleWindow x:Key="RoleWD"></View:RoleWindow>
+</ResourceDictionary>

@@ -1,0 +1,125 @@
+﻿<Window x:Class="ATBM.Window_Detail"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ATBM"
+        mc:Ignorable="d"
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        DataContext="{StaticResource DetailWD}"
+        ResizeMode="NoResize"
+        Height="480" Width="670"
+        x:Name="DetailWindow"
+        
+        Title="Chi Tiết" >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding getAllContent}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" 
+                   x:Name="txbUser_Name"
+                   FontSize="50" 
+                   HorizontalAlignment="Center"
+                   Text="{Binding MyUser_Selected_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBlock>
+        <Grid Grid.Row="1" Margin="155,0,155,330" Grid.RowSpan="2">
+            <ComboBox x:Name="cbbSchema"
+                 materialDesign:HintAssist.Hint="Bảng" 
+                      HorizontalAlignment="Left" 
+                      Width="354"
+                      ItemsSource="{Binding MyUser.table}"
+                      SelectedItem="{Binding SelectedTable}"
+                      >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding TableName}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="0,0,0,70" 
+                  Grid.Column="0">
+                <Rectangle Fill="White" 
+                           Stroke="Black" 
+                           Margin="40,40,20,24" 
+                           RadiusX="15" RadiusY="15">
+                </Rectangle>
+                <ListView    x:Name="lsvTable_Privs"
+                            Margin="51,17,30,24"
+                             ItemsSource="{Binding SelectedTable.Privs}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding ="{Binding}">
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <TextBlock Text="  Quyền trên bảng  "  
+                           Margin="68,27,0,0" 
+                           Background="#FFFAFAFA"
+                           HorizontalAlignment="Left" 
+                           Width="110" VerticalAlignment="Top" />
+            </Grid>
+            <Grid Margin="0,0,0,70" Grid.Column="1">
+                <Rectangle Fill="White" 
+                           Stroke="Black" 
+                           Margin="20,40,40,24" 
+                           IsEnabled="False" 
+                           RadiusX="15" RadiusY="15"/>
+                <ListView   x:Name="lsvRole_Privs"
+                            Margin="28,43,49,33"
+                            ItemsSource="{Binding MyUser.PrivsSys}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding ="{Binding}">
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <TextBlock Text="  Quyền trên Hệ thống "  
+                           Margin="50,27,0,0" 
+                           Background="#FFFAFAFA"
+                           HorizontalAlignment="Left"
+                           Width="135" 
+                           VerticalAlignment="Top" />
+                <TextBlock x:Name="txbRole"
+                           Text="{Binding MyUser_Selected_Role, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                           FontSize="25"
+                           FontFamily="Arial" 
+                           FontWeight="Bold" 
+                           Margin="35,48,109,175"></TextBlock>
+            </Grid>
+        </Grid>
+        <Button
+            Content="Xác nhận" 
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Height="50"
+            materialDesign:ButtonAssist.CornerRadius="10"
+            VerticalAlignment="Bottom" 
+            Margin="250,0,250,20" 
+            Grid.Row="2"
+            Command="{Binding ExitCommand}"
+            CommandParameter="{Binding ElementName=DetailWindow}"
+            FontSize="20"></Button>
+    </Grid>
+</Window>
